@@ -7,52 +7,53 @@ function toggleDetails(id) {
 }
 
 function submitRSVP() {
-	const data = {
-		name: document.getElementById("name").value,
-		dinner: document.getElementById("dinner").checked,
-		karaoke: document.getElementById("karaoke").checked,
-		comment: document.getElementById("comment").value
-	};
+  const name = document.getElementById("name").value;
+  const dinner = document.getElementById("dinner").checked;
+  const karaoke = document.getElementById("karaoke").checked;
+  const comment = document.getElementById("comment").value;
 
-	if (!data.name) {
-		alert("Please enter your name.");
-		return;
-	}
+  if (!name) {
+    alert("Please enter your name.");
+    return;
+  }
 
-	fetch(API_URL, {
-  		method: "POST",
-  		headers: { "Content-Type": "application/json" },
-  		body: JSON.stringify({
-    			action: "saveRSVP",
-    			payload: data
-  		})
-	})
-	.then(res => res.json())
-	.then(() => {
-	  // Show success pulse
-	  const animation = document.getElementById("success-animation");
-	  animation.style.display = "block";
-	  void animation.offsetWidth;
-	  animation.classList.add("pulse");
-	  setTimeout(() => {
-	    animation.style.display = "none";
-	    animation.classList.remove("pulse");
-	  }, 2000);
+  const form = document.createElement("form");
+  form.method = "POST";
+  form.action = API_URL;
+  form.style.display = "none";
 
-	  // Launch confetti
-	  launchConfetti();
+  const input = document.createElement("input");
+  input.type = "hidden";
+  input.name = "data";
+  input.value = JSON.stringify({
+    action: "saveRSVP",
+    payload: { name, dinner, karaoke, comment }
+  });
 
-	  // Reset form
-	  document.getElementById("name").value = "";
-	  document.getElementById("dinner").checked = false;
-	  document.getElementById("karaoke").checked = false;
-	  document.getElementById("comment").value = "";
+  form.appendChild(input);
+  document.body.appendChild(form);
+  form.submit();
 
-	  updateAttendeeCounts();
-	});
+  // Immediate UI feedback (no waiting on network)
+  launchConfetti();
 
+  const animation = document.getElementById("success-animation");
+  animation.style.display = "block";
+  void animation.offsetWidth;
+  animation.classList.add("pulse");
 
+  setTimeout(() => {
+    animation.style.display = "none";
+    animation.classList.remove("pulse");
+  }, 2000);
+
+  // Reset form
+  document.getElementById("name").value = "";
+  document.getElementById("dinner").checked = false;
+  document.getElementById("karaoke").checked = false;
+  document.getElementById("comment").value = "";
 }
+
 
 function launchConfetti() {
 	const container = document.getElementById("confetti-container");
@@ -94,6 +95,7 @@ function updateAttendeeCounts() {
 document.addEventListener("DOMContentLoaded", () => {
         updateAttendeeCounts();
 });
+
 
 
 
