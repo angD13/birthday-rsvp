@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Birthday Celebration</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+
+<body>
+  <div id="main">
+    <div class="container">
+      <h1>✨ Birthday Celebration for Angelina, Caroline, & Jesse ✨</h1>
+
+      <p class="subtitle">
+        We’re celebrating together! Join us <span style="color: gold; font-weight: bold;"> Saturday, February
+          7</span>!<br>
+        Come for dinner, stay for karaoke!<br>
+        Can't do both, join either dinner OR karaoke - it's totally up to you.
+      </p>
+
+      <p class="dress-note">
+        💛•💛•💛 <br>
+        🖤💛 Black & Gold is encouraged, but not required! 🖤💛 <br> 💛•💛•💛
+      </p>
+
+
+
+      <p class="rsvp-note">
+        Tap on the activity to see the details.
+      </p>
+
+      <div class="card" onclick="toggleDetails('dinnerDetails')">
+        🍽 Dinner
+        <div class="details" id="dinnerDetails">
+          <p><span class="material-icons" style="vertical-align:middle;">schedule</span>
+            <strong class="gold-text">6:30 PM</strong>
+          </p>
+          <p><span class="material-icons" style="vertical-align:middle;">place</span>
+            Gen Korean BBQ House</p>
+          <p>5125 W Sahara Ave<br>
+            <a href="https://www.google.com/maps/search/?api=1&query=5125+W+Sahara+Ave" target="_blank">View on Google
+              Maps</a>
+          </p>
+          <p class="attendee-count">Attending: <span id="dinner-count">0</span></p>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggleDetails('karaokeDetails')">
+        🎤 Karaoke
+        <div class="details" id="karaokeDetails">
+          <p><span class="material-icons" style="vertical-align:middle;">schedule</span>
+            <strong class="gold-text">9:15 PM</strong>
+          </p>
+          <p><span class="material-icons" style="vertical-align:middle;">place</span>
+            Karaoke Q Studio</p>
+          <p>3400 S. Jones Blvd #11<br>
+            <a href="https://www.google.com/maps/search/?api=1&query=3400+S+Jones+Blvd+%2311" target="_blank">View on
+              Google Maps</a>
+          </p>
+          <p class="attendee-count">Attending: <span id="karaoke-count">0</span></p>
+        </div>
+      </div>
+
+      <p class="rsvp-note">
+        Add your name and select the activity you’re in for below so we can plan accordingly.
+      </p>
+
+
+      <h3>RSVP</h3>
+
+      <input type="text" id="name" placeholder="Your name">
+
+      <label class="checkbox-label">
+        <input type="checkbox" id="dinner"> Joining Dinner
+      </label><br>
+
+      <label class="checkbox-label">
+        <input type="checkbox" id="karaoke"> Joining Karaoke
+      </label>
+
+      <textarea id="comment" placeholder="Leave a comment (optional)"></textarea>
+
+      <button onclick="submitRSVP()">Submit RSVP</button>
+
+      <div id="success-animation" class="success-animation">✨ RSVP Submitted! ✨</div>
+
+
+    </div>
+    <div id="confetti-container"></div>
+  </div>
+ <script src="script.js"></script>
+
+</body>
+
+</html>
