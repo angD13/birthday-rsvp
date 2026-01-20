@@ -74,6 +74,7 @@ function launchConfetti() {
         }
 }
 
+/*
 function updateAttendeeCounts() {
   fetch(API_URL, {
     method: "POST",
@@ -88,15 +89,17 @@ function updateAttendeeCounts() {
     document.getElementById("karaoke-count").textContent = counts.karaoke;
   });
 }
+*/
 
 
-
-
+/*
 document.addEventListener("DOMContentLoaded", () => {
         updateAttendeeCounts();
 });
+*/
 
 
 
 
    
+
