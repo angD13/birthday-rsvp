@@ -6,6 +6,105 @@ function toggleDetails(id) {
 	el.style.display = el.style.display === "block" ? "none" : "block";
 }
 
+// ---- REPLACE the submitRSVP() function in script.js with this entire block ----
+function submitRSVP() {
+  // read values
+  const name = document.getElementById("name").value.trim();
+  const dinner = document.getElementById("dinner").checked;
+  const karaoke = document.getElementById("karaoke").checked;
+  const comment = document.getElementById("comment").value.trim();
+
+  // simple client-side validation
+  if (!name) {
+    alert("Please enter your name.");
+    return;
+  }
+
+  // prepare payload expected by the Apps Script endpoint
+  const body = {
+    action: "saveRSVP",
+    payload: {
+      name: name,
+      dinner: dinner,
+      karaoke: karaoke,
+      comment: comment
+    }
+  };
+
+  // optional: UI immediate feedback while request runs
+  // (you can leave this or remove)
+  const submitBtn = document.getElementById("submit-btn");
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending...";
+  }
+
+  // POST as JSON using fetch() so the browser does NOT navigate
+  fetch(API_URL, {
+    method: "POST",
+    mode: "cors", // keep this; if CORS blocks you later, we'll handle it
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(body)
+  })
+    .then(response => {
+      // if server returns application/json, use res.json()
+      const ct = response.headers.get("content-type") || "";
+      if (ct.indexOf("application/json") !== -1) {
+        return response.json();
+      }
+      // if server returned text (older behaviour), return text and try to parse JSON
+      return response.text().then(t => {
+        try { return JSON.parse(t); }
+        catch { return { success: false, raw: t }; }
+      });
+    })
+    .then(result => {
+      // handle success / failure
+      if (result && result.success) {
+        // YOUR existing success UI actions:
+        launchConfetti && launchConfetti(); // safe conditional call
+        const animation = document.getElementById("success-animation");
+        if (animation) {
+          animation.style.display = "block";
+          void animation.offsetWidth; // restart animation
+          animation.classList.add("pulse");
+          setTimeout(() => {
+            animation.style.display = "none";
+            animation.classList.remove("pulse");
+          }, 2000);
+        }
+
+        // clear form
+        document.getElementById("name").value = "";
+        document.getElementById("dinner").checked = false;
+        document.getElementById("karaoke").checked = false;
+        document.getElementById("comment").value = "";
+      } else {
+        // failure: show server-provided message if present, otherwise fallback
+        const msg = result && result.error ? result.error : (result && result.raw ? "Server returned unexpected response." : "Save failed.");
+        alert("Error: " + msg);
+        console.error("submitRSVP result:", result);
+      }
+    })
+    .catch(err => {
+      console.error("Network error in submitRSVP:", err);
+      alert("Network error — check console for details.");
+    })
+    .finally(() => {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Submit";
+      }
+    });
+
+  // Important: DO NOT call form.submit() anywhere — fetch() keeps user on the page.
+}
+// ---- end replacement ----
+
+
+/*
 function submitRSVP() {
   const name = document.getElementById("name").value;
   const dinner = document.getElementById("dinner").checked;
@@ -53,7 +152,7 @@ function submitRSVP() {
   document.getElementById("karaoke").checked = false;
   document.getElementById("comment").value = "";
 }
-
+*/
 
 function launchConfetti() {
 	const container = document.getElementById("confetti-container");
@@ -102,4 +201,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
    
+
 
