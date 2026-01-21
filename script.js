@@ -6,55 +6,9 @@ function toggleDetails(id) {
 	el.style.display = el.style.display === "block" ? "none" : "block";
 }
 
-// ---- REPLACE the submitRSVP() function in script.js with this entire block ----
-function submitRSVP() {
-  const name = document.getElementById("name").value.trim();
-  const dinner = document.getElementById("dinner").checked;
-  const karaoke = document.getElementById("karaoke").checked;
-  const comment = document.getElementById("comment").value.trim();
-
-  if (!name) {
-    alert("Please enter your name.");
-    return;
-  }
-
-  // Send data using fetch with no-cors
-  fetch(API_URL, {
-    method: "POST",
-    mode: "no-cors", // 🔑 THIS FIXES THE CORS ERROR
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      action: "saveRSVP",
-      payload: { name, dinner, karaoke, comment }
-    })
-  });
-
-  // ✅ Assume success (request was sent)
-  launchConfetti();
-
-  const animation = document.getElementById("success-animation");
-  animation.style.display = "block";
-  void animation.offsetWidth;
-  animation.classList.add("pulse");
-
-  setTimeout(() => {
-    animation.style.display = "none";
-    animation.classList.remove("pulse");
-  }, 2000);
-
-  // Reset form
-  document.getElementById("name").value = "";
-  document.getElementById("dinner").checked = false;
-  document.getElementById("karaoke").checked = false;
-  document.getElementById("comment").value = "";
-}
-
-// ---- end replacement ----
 
 
-/*
+
 function submitRSVP() {
   const name = document.getElementById("name").value;
   const dinner = document.getElementById("dinner").checked;
@@ -102,7 +56,7 @@ function submitRSVP() {
   document.getElementById("karaoke").checked = false;
   document.getElementById("comment").value = "";
 }
-*/
+
 
 function launchConfetti() {
 	const container = document.getElementById("confetti-container");
@@ -151,6 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
    
+
 
 
 
